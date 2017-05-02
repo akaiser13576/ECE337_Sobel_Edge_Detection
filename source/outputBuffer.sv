@@ -137,7 +137,7 @@ begin
 		out_empty = 1'b1;
 		if (ccnt <= 18)
 		begin
-			/*if (rcnt % 2 == 1) begin
+			if (rcnt % 2 == 1) begin
 				out_pixel = {next_out_pixel[0],next_out_pixel[1],next_out_pixel[2],next_out_pixel[3],next_out_pixel[4],next_out_pixel[5],next_out_pixel[6],next_out_pixel[7],next_out_pixel[8],next_out_pixel[9],			
 						next_out_pixel[10],next_out_pixel[11],next_out_pixel[12],next_out_pixel[13],next_out_pixel[14],next_out_pixel[15],next_out_pixel[16],next_out_pixel[17],next_out_pixel[18],next_out_pixel[19],
 						next_out_pixel[20],next_out_pixel[21],next_out_pixel[22],next_out_pixel[23],next_out_pixel[24],next_out_pixel[25],next_out_pixel[26],next_out_pixel[27],next_out_pixel[28],next_out_pixel[29],
@@ -146,8 +146,8 @@ begin
 			end
 			else begin
 				out_pixel = next_out_pixel;
-			end*/
-			out_pixel = next_out_pixel;
+			end
+			//out_pixel = next_out_pixel;
 		end
 		else
 		begin
