@@ -8,8 +8,8 @@
 `timescale 1ns / 100ps
 module tb_avalonBus();
 
-	parameter INPUT_FILENAME 	= "./docs/test2.bmp";
-	parameter RESULT_FILENAME	= "./docs/sobel_rocket.bmp";
+	parameter INPUT_FILENAME 	= "./docs/mario.bmp";
+	parameter RESULT_FILENAME	= "./docs/sobel_mario_final.bmp";
 	
 	// Define file io offset constants
 	localparam SEEK_START	= 0;
@@ -544,14 +544,11 @@ module tb_avalonBus();
 			$display("Row %d last 2 bits: %d %d", i, tb_outImage1D[i*640 + 638], tb_outImage1D[i*640 + 639] );
 			end
 			
-			$display("index 477: %d", tb_outImage1D[477]);
-			$display("index 478: %d", tb_outImage1D[478]);
-			$display("index 479: %d", tb_outImage1D[479]);
-			$display("index 478 2nd row: %d", tb_outImage1D[477 + 640]);
-			$display("index 478 2nd row: %d", tb_outImage1D[478 + 640]);
-			$display("index 479 2nd row: %d", tb_outImage1D[479 + 640]);
-
-						
+			$display("index 615 of 1D: %d", tb_outImage1D[615]);
+			$display("index 616 of 1D: %d", tb_outImage1D[616]);
+	
+			$display("index 615 2nd row of 1D: %d", tb_outImage1D[615 + 640 + 6]);
+			$display("index 616 2nd row of 1D: %d", tb_outImage1D[616 + 640 + 6]);			
 
 			$display("\n");
 			
@@ -574,12 +571,12 @@ module tb_avalonBus();
 				if (col == 0)
 				begin
 					temparray[i] = 0;
-					temparray[i+1] = 0;
+					//temparray[i+1] = 0;
 				end
 				else if (col == 639)
 				begin
 					temparray[i] = 0;
-					temparray[i-1] = 0;
+					//temparray[i-1] = 0;
 				end
 				
 			end
@@ -608,6 +605,7 @@ module tb_avalonBus();
 					//col = 0;
 				end
 				
+				
 				if (row % 2 == 0)
 				begin
 					if (col != 639 || col != 638) begin
@@ -622,6 +620,23 @@ module tb_avalonBus();
 						temparray[i-1] = tb_outImage1D[i];
 					end
 				end
+								
+				
+				
+				/*if(row != 0) begin
+					if (row % 2 == 0) begin
+						if (col != 639 || col != 638)
+							temparray[i+1 + (4 * ((row / 2) + 1))] = tb_outImage1D[i];
+					end else if (row % 2 == 1) begin
+						if (col != 0 || col != 1)
+							//temparray[i+1] = tb_outImage1D[i];
+							temparray[i-1 - (4 * (row / 2))] = tb_outImage1D[i];
+					end
+				end else begin
+					if (col != 639 || col != 638) begin
+							temparray[i+1] = tb_outImage1D[i];
+						end
+				end*/
 				
 			end
 	
@@ -637,13 +652,13 @@ module tb_avalonBus();
 	
 			
 			//output 24 bit wide 2D array
-			$display("index 477: %d", temparray[477]);
-			$display("index 478: %d", temparray[478]);
-			$display("index 479: %d", temparray[479]);
+			$display("index 616: %d", temparray[616]);
+			$display("index 617: %d", temparray[617]);
+	
 
-			$display("index 477 2nd row: %d", temparray[477 + 640]);
-			$display("index 478 2nd row: %d", temparray[478 + 640]);
-			$display("index 479 2nd row: %d", temparray[479 + 640]);
+			$display("index 616 2nd row: %d", temparray[616 + 640 + 2]);
+			$display("index 617 2nd row: %d", temparray[617 + 640 + 2]);
+			
 
 	
 	
