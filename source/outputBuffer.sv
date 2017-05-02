@@ -137,26 +137,30 @@ begin
 		out_empty = 1'b1;
 		if (ccnt <= 18)
 		begin
-			if (rcnt % 2 == 1) begin
+			if (rcnt % 2 == 1) begin // Moving left, need to flip buffer
 				out_pixel = {next_out_pixel[0],next_out_pixel[1],next_out_pixel[2],next_out_pixel[3],next_out_pixel[4],next_out_pixel[5],next_out_pixel[6],next_out_pixel[7],next_out_pixel[8],next_out_pixel[9],			
 						next_out_pixel[10],next_out_pixel[11],next_out_pixel[12],next_out_pixel[13],next_out_pixel[14],next_out_pixel[15],next_out_pixel[16],next_out_pixel[17],next_out_pixel[18],next_out_pixel[19],
 						next_out_pixel[20],next_out_pixel[21],next_out_pixel[22],next_out_pixel[23],next_out_pixel[24],next_out_pixel[25],next_out_pixel[26],next_out_pixel[27],next_out_pixel[28],next_out_pixel[29],
 						next_out_pixel[30],next_out_pixel[31]};
 		
 			end
-			else begin
+			else begin // Moving right, write buffer as is
+				
 				out_pixel = next_out_pixel;
 			end
 			//out_pixel = next_out_pixel;
 		end
 		else
 		begin
-			if (rcnt % 2 == 0)
+			if (rcnt % 2 == 0) // Moving right at the end, needs padding
 			begin
 				out_pixel = {next_out_pixel[31:2], 2'b0};
 			end
-			else begin
-				out_pixel={2'b0, next_out_pixel[29:0]};
+			else begin // Moving left at the end, needs padding
+				//out_pixel={2'b0, next_out_pixel[29:0]};
+				out_pixel={2'b0, next_out_pixel[0],next_out_pixel[1],next_out_pixel[2],next_out_pixel[3],next_out_pixel[4],next_out_pixel[5],next_out_pixel[6],next_out_pixel[7],next_out_pixel[8],next_out_pixel[9],			
+						next_out_pixel[10],next_out_pixel[11],next_out_pixel[12],next_out_pixel[13],next_out_pixel[14],next_out_pixel[15],next_out_pixel[16],next_out_pixel[17],next_out_pixel[18],next_out_pixel[19],
+						next_out_pixel[20],next_out_pixel[21],next_out_pixel[22],next_out_pixel[23],next_out_pixel[24],next_out_pixel[25],next_out_pixel[26],next_out_pixel[27],next_out_pixel[28],next_out_pixel[29]};
 			end		
 		end
 	end
