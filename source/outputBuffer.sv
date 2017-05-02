@@ -32,6 +32,7 @@ reg [31:0] next_out_pixel;
 reg [31:0] next_write_addr;
 reg [31:0] curr_addr;
 reg delay;
+reg buffclr;
 
 //reg [13:0] donecnt;
 
@@ -60,7 +61,7 @@ end
 flex_stp_sr #(32,1) TXSR(.clk(clk), .n_rst(n_rst), .shift_enable(out_en), .serial_in(edge_pixel), .parallel_out(next_out_pixel));
 
 //buffer counter
-flex_counter #6 buffcounter (.clk(clk), .n_rst(n_rst), .count_enable(out_en), .rollover_val(6'd32), .rollover_flag(full), .count_out(buffcnt));
+flex_counter #6 buffcounter (.clk(clk), .n_rst(n_rst), .clear(buffclr), .count_enable(out_en), .rollover_val(6'd32), .rollover_flag(full), .count_out(buffcnt));
 
 //col count
 flex_counter #5 colcnt (.clk(clk), .n_rst(n_rst), .clear(out_en & nextcol), .count_enable(write_out_enable), .rollover_val(5'd20), .rollover_flag(nextcol), .count_out(ccnt));
@@ -90,7 +91,7 @@ begin
 	end
 	CHECK_FULL:
 	begin
-		if (full)
+		if (full || (ccnt == 19 && buffcnt == 30))
 		begin
 			next = FULL;
 		end
@@ -121,11 +122,15 @@ always_comb
 begin
 	out_full = 0;
 	out_empty = 0;
+	buffclr = 0;
 	case(current)
 	
 	FULL:
 	begin
 		out_full = 1'b1;
+		if (ccnt == 19 && buffcnt == 30) begin
+			buffclr = 1;
+		end
 	end
 	WRITE_OUT:
 	begin
